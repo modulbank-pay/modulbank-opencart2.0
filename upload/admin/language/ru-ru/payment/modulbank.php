@@ -68,7 +68,7 @@ $_['entry_delivery_vat']            = 'Ставка НДС на доставку
 $_['entry_payment_method']          = 'Метод платежа';
 $_['entry_payment_object']          = 'Предмет расчёта';
 $_['entry_payment_object_delivery'] = 'Предмет расчёта на доставку';
-$_['entry_total']                   = 'Сумма';
+$_['entry_total']                   = 'Минимальная сумма';
 $_['entry_order_status']            = 'Статус оплаченного заказа';
 $_['entry_order_refund_status']     = 'Статус возврата заказа';
 $_['entry_geo_zone']                = 'Гео зона';
@@ -78,7 +78,7 @@ $_['entry_logging']                 = 'Логирование';
 $_['entry_log_size_limit']          = 'Ограничение размеров лога (Mb)';
 
 // Help
-$_['help_total'] = 'The checkout total the order must reach before this payment method becomes active.';
+$_['help_total'] = 'Ниже этой суммы метод будет недоступен.';
 
 // Error
 $_['error_permission']  = 'Warning: You do not have permission to modify payment Modulbank!';

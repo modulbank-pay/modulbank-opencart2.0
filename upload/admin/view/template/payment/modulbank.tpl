@@ -102,7 +102,7 @@
             <div class="col-sm-10">
               <select name="modulbank_sno" id="input-sno" class="form-control">
                 <?php foreach($sno_list as $key => $sno): ?>
-                <?php if($key == modulbank_sno): ?>
+                <?php if($key == $modulbank_sno): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $sno; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $sno; ?></option>
@@ -117,7 +117,7 @@
               <select name="modulbank_product_vat" id="input-product-vat" class="form-control">
                 <option value="0" ><?php echo $text_vat_0; ?></option>
                 <?php foreach($vat_list as $key => $vat): ?>
-                <?php if($key == modulbank_product_vat): ?>
+                <?php if($key == $modulbank_product_vat): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $vat; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $vat; ?></option>
@@ -131,7 +131,7 @@
             <div class="col-sm-10">
               <select name="modulbank_delivery_vat" id="input-delivery-vat" class="form-control">
                 <?php foreach($vat_list as $key => $vat): ?>
-                <?php if($key == modulbank_delivery_vat): ?>
+                <?php if($key == $modulbank_delivery_vat): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $vat; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $vat; ?></option>
@@ -145,7 +145,7 @@
             <div class="col-sm-10">
               <select name="modulbank_payment_method" id="input-payment-method" class="form-control">
                 <?php foreach($payment_method_list as $key => $method): ?>
-                <?php if($key == modulbank_payment_method): ?>
+                <?php if($key == $modulbank_payment_method): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $method; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $method; ?></option>
@@ -159,7 +159,7 @@
             <div class="col-sm-10">
               <select name="modulbank_payment_object" id="input-object-method" class="form-control">
                 <?php foreach($payment_object_list as $key => $object): ?>
-                <?php if($key == modulbank_payment_object): ?>
+                <?php if($key == $modulbank_payment_object): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $object; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $object; ?></option>
@@ -173,7 +173,7 @@
             <div class="col-sm-10">
               <select name="modulbank_payment_object_delivery" id="input-object-method-delivery" class="form-control">
                 <?php foreach($payment_object_list as $key => $object): ?>
-                <?php if($key == modulbank_payment_object_delivery): ?>
+                <?php if($key == $modulbank_payment_object_delivery): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $object; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $object; ?></option>
@@ -193,7 +193,7 @@
             <div class="col-sm-10">
               <select name="modulbank_order_status_id" id="input-order-status" class="form-control">
                 <?php foreach($order_statuses as $order_status): ?>
-                <?php if($order_status['order_status_id'] == modulbank_order_status_id): ?>
+                <?php if($order_status['order_status_id'] == $modulbank_order_status_id): ?>
                 <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
@@ -207,7 +207,7 @@
             <div class="col-sm-10">
               <select name="modulbank_refund_order_status_id" id="input-order-status" class="form-control">
                 <?php foreach($order_statuses as $order_status): ?>
-                <?php if($order_status['order_status_id'] == modulbank_refund_order_status_id): ?>
+                <?php if($order_status['order_status_id'] == $modulbank_refund_order_status_id): ?>
                 <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
@@ -250,7 +250,7 @@
               <select name="modulbank_geo_zone_id" id="input-geo-zone" class="form-control">
                 <option value="0"><?php echo $text_all_zones; ?></option>
                 <?php foreach($geo_zones as $geo_zone): ?>
-                <?php if($geo_zone['geo_zone_id'] == modulbank_geo_zone_id): ?>
+                <?php if($geo_zone['geo_zone_id'] == $modulbank_geo_zone_id): ?>
                 <option value="<?php echo $geo_zone['geo_zone_id']; ?>" selected="selected"><?php echo $geo_zone['name']; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $geo_zone['name']; ?></option>
