@@ -44,6 +44,8 @@ class ControllerPaymentModulbank extends Controller
 
 		$data['text_mode_test']     = $this->language->get('text_mode_test');
 		$data['text_mode_prod']     = $this->language->get('text_mode_prod');
+		$data['text_preauth_off']     = $this->language->get('text_preauth_off');
+		$data['text_preauth_on']     = $this->language->get('text_preauth_on');
 		$data['text_logging_off']   = $this->language->get('text_logging_off');
 		$data['text_logging_on']    = $this->language->get('text_logging_on');
 		$data['text_log_link']      = $this->url->link('payment/modulbank/logs', 'token=' . $this->session->data['token'], true);
@@ -158,10 +160,12 @@ class ControllerPaymentModulbank extends Controller
 			'total'                   => '',
 			'order_status_id'         => '5', //Complete
 			'refund_order_status_id'  => '11', //Refunded
+			'confirm_order_status_id' => '5', //Complete
 			'geo_zone_id'             => 0,
 			'status'                  => 0,
 			'sort_order'              => '',
 			'log_size_limit'          => 10,
+			'preauth'                 => 0,
 		);
 
 		foreach ($settings as $key => $default) {

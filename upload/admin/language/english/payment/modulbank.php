@@ -12,6 +12,8 @@ $_['text_mode_prod'] = 'Prod';
 
 $_['text_logging_off'] = 'Off';
 $_['text_logging_on']  = 'On';
+$_['text_preauth_off'] = 'Off';
+$_['text_preauth_on']  = 'On';
 $_['text_download_logs'] = 'Download logs';
 
 $_['text_vat_0']      = 'Catalog';
@@ -76,6 +78,8 @@ $_['entry_order_refund_status']     = 'Refund status';
 $_['entry_sort_order']              = 'Sort Order';
 $_['entry_logging']                 = 'Logging';
 $_['entry_log_size_limit']          = 'Log size limit (Mb)';
+$_['entry_confirm_order_status_id']    = 'Capture status';
+$_['entry_preauth']                 = 'preauth';
 
 // Help
 $_['help_total'] = 'The checkout total the order must reach before this payment method becomes active.';

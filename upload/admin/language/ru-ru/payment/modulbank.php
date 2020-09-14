@@ -13,6 +13,8 @@ $_['text_mode_prod'] = 'Боевой';
 $_['text_logging_off']   = 'Выключено';
 $_['text_logging_on']    = 'Включено';
 $_['text_download_logs'] = 'Скачать логи';
+$_['text_preauth_off']      = 'Выключено';
+$_['text_preauth_on']       = 'Включено';
 
 $_['text_vat_0']      = 'Брать из настроек товара';
 $_['text_vat_none']   = 'Без НДС';
@@ -76,6 +78,8 @@ $_['entry_status']                  = 'Статус';
 $_['entry_sort_order']              = 'Сортировка';
 $_['entry_logging']                 = 'Логирование';
 $_['entry_log_size_limit']          = 'Ограничение размеров лога (Mb)';
+$_['entry_confirm_order_status_id']    = 'Статус для подтверждения оплаты';
+$_['entry_preauth']                 = 'Предавторизация';
 
 // Help
 $_['help_total'] = 'Ниже этой суммы метод будет недоступен.';

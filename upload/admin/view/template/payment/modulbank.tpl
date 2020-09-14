@@ -98,6 +98,37 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-preauth"><?php echo $entry_preauth; ?></label>
+            <div class="col-sm-10">
+              <select name="modulbank_preauth" id="input-preauth" class="form-control">
+                <?php if($modulbank_preauth == '0'): ?>
+                <option value="test" selected="selected"><?php echo $text_preauth_off; ?></option>
+                <?php else: ?>
+                <option value="0"><?php echo $text_preauth_off; ?></option>
+                <?php endif;?>
+                <?php if($modulbank_preauth == '1'): ?>
+                <option value="1" selected="selected"><?php echo $text_preauth_on; ?></option>
+                <?php else: ?>
+                <option value="1"><?php echo $text_preauth_on; ?></option>
+                <?php endif;?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-confirm-order-status"><?php echo $entry_confirm_order_status_id; ?></label>
+            <div class="col-sm-10">
+              <select name="modulbank_confirm_order_status_id" id="input-confirm-order-status" class="form-control">
+                <?php foreach($order_statuses as $order_status): ?>
+                <?php if($order_status['order_status_id'] == $modulbank_confirm_order_status_id): ?>
+                <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
+                <?php else: ?>
+                <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
+                <?php endif;?>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-sno"><?php echo $entry_sno; ?></label>
             <div class="col-sm-10">
               <select name="modulbank_sno" id="input-sno" class="form-control">
