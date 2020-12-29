@@ -172,6 +172,20 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-voucher-vat"><?php echo $entry_voucher_vat; ?></label>
+            <div class="col-sm-10">
+              <select name="modulbank_voucher_vat" id="input-voucher-vat" class="form-control">
+                <?php foreach($vat_list as $key => $vat): ?>
+                <?php if($key == $modulbank_voucher_vat): ?>
+                <option value="<?php echo $key; ?>" selected="selected"><?php echo $vat; ?></option>
+                <?php else: ?>
+                <option value="<?php echo $key; ?>"><?php echo $vat; ?></option>
+                <?php endif;?>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-payment-method"><?php echo $entry_payment_method; ?></label>
             <div class="col-sm-10">
               <select name="modulbank_payment_method" id="input-payment-method" class="form-control">
@@ -205,6 +219,20 @@
               <select name="modulbank_payment_object_delivery" id="input-object-method-delivery" class="form-control">
                 <?php foreach($payment_object_list as $key => $object): ?>
                 <?php if($key == $modulbank_payment_object_delivery): ?>
+                <option value="<?php echo $key; ?>" selected="selected"><?php echo $object; ?></option>
+                <?php else: ?>
+                <option value="<?php echo $key; ?>"><?php echo $object; ?></option>
+                <?php endif;?>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-object-method-voucher"><?php echo $entry_payment_object_voucher; ?></label>
+            <div class="col-sm-10">
+              <select name="modulbank_payment_object_voucher" id="input-object-method-voucher" class="form-control">
+                <?php foreach($payment_object_list as $key => $object): ?>
+                <?php if($key == $modulbank_payment_object_voucher): ?>
                 <option value="<?php echo $key; ?>" selected="selected"><?php echo $object; ?></option>
                 <?php else: ?>
                 <option value="<?php echo $key; ?>"><?php echo $object; ?></option>

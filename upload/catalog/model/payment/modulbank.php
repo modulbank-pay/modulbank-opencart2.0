@@ -96,8 +96,10 @@ class ModelPaymentModulbank extends Model {
 		$payment_method          = $this->config->get('modulbank_payment_method');
 		$payment_object          = $this->config->get('modulbank_payment_object');
 		$payment_object_delivery = $this->config->get('modulbank_payment_object_delivery');
+		$payment_object_voucher  = $this->config->get('modulbank_payment_object_voucher');
 		$product_vat             = $this->config->get('modulbank_product_vat');
 		$delivery_vat            = $this->config->get('modulbank_delivery_vat');
+		$voucher_vat             = $this->config->get('modulbank_voucher_vat');
 
 		$amount  = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
 		$receipt = new ModulbankReceipt($sno, $payment_method, $amount);
@@ -131,6 +133,10 @@ class ModelPaymentModulbank extends Model {
 			}
 			$name = htmlspecialchars_decode($product['name']);
 			$receipt->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
+		}
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
+		foreach ($query->rows as $product) {
+			$receipt->addItem($product['description'], $product['amount'], $voucher_vat, $payment_object_voucher);
 		}
 		$query = $this->db->query("SELECT value FROM " . DB_PREFIX . "order_total WHERE order_id = '" . $order_id . "' and code='shipping'");
 		if (isset($query->row['value']) && $query->row['value']) {

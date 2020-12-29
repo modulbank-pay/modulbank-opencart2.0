@@ -153,9 +153,11 @@ class ControllerPaymentModulbank extends Controller
 			'sno'                     => 'usn_income_outcome',
 			'product_vat'             => 'none',
 			'delivery_vat'            => 'none',
+			'voucher_vat'             => 'none',
 			'payment_method'          => 'full_prepayment',
 			'payment_object'          => 'commodity',
 			'payment_object_delivery' => 'service',
+			'payment_object_voucher'  => 'commodity',
 			'logging'                 => 0,
 			'total'                   => '',
 			'order_status_id'         => '5', //Complete
