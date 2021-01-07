@@ -97,6 +97,22 @@
               </select>
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-mode"><?php echo $entry_show_payment_methods; ?></label>
+            <div class="col-sm-10">
+              <select name="modulbank_show_payment_methods[]" id="input-mode" class="form-control" multiple size="2">
+                <?php foreach($show_payment_methods_list as $key => $text): ?>
+                <?php if(in_array($key,$modulbank_show_payment_methods)): ?>
+                <option value="<?php echo $key; ?>" selected="selected"><?php echo $text; ?></option>
+                <?php else: ?>
+                <option value="<?php echo $key; ?>"><?php echo $text; ?></option>
+                <?php endif;?>
+                <?php endforeach; ?>
+              </select>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-preauth"><?php echo $entry_preauth; ?></label>
             <div class="col-sm-10">

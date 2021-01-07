@@ -141,6 +141,11 @@ class ControllerPaymentModulbank extends Controller
 			'another'               => $this->language->get('text_po_another'),
 		);
 
+		$data['show_payment_methods_list'] = array(
+			'sbp'  => $this->language->get('text_spm_sbp'),
+			'card' => $this->language->get('text_spm_card'),
+		);
+
 		$settings = array(
 			'paymentname'             => '',
 			'merchant'                => '',
@@ -168,6 +173,7 @@ class ControllerPaymentModulbank extends Controller
 			'sort_order'              => '',
 			'log_size_limit'          => 10,
 			'preauth'                 => 0,
+			'show_payment_methods'    => ['sbp', 'card'],
 		);
 
 		foreach ($settings as $key => $default) {

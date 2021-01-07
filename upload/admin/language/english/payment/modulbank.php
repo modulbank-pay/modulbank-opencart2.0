@@ -53,6 +53,9 @@ $_['text_po_agent_commission']      = 'agent commission';
 $_['text_po_composite']             = 'composite';
 $_['text_po_another']               = 'another';
 
+$_['text_spm_sbp']  = 'SBP';
+$_['text_spm_card'] = 'Card';
+
 $_['text_modulbank'] = '<img src="view/image/payment/modulbank.png" alt="Модульбанк" title="Модульбанк" style="border: 1px solid #EEEEEE;" />';
 
 // Entry
@@ -82,6 +85,7 @@ $_['entry_logging']                 = 'Logging';
 $_['entry_log_size_limit']          = 'Log size limit (Mb)';
 $_['entry_confirm_order_status_id']    = 'Capture status';
 $_['entry_preauth']                 = 'preauth';
+$_['entry_show_payment_methods']    = 'Show payment methods';
 
 // Help
 $_['help_total'] = 'The checkout total the order must reach before this payment method becomes active.';

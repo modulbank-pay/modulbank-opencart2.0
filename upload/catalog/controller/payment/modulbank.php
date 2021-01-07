@@ -70,6 +70,10 @@ class ControllerPaymentModulbank extends Controller
 			'salt'            => ModulbankHelper::getSalt(),
 		];
 
+		if(!empty($this->config->get('modulbank_show_payment_methods'))) {
+			$data['show_payment_methods'] = json_encode($this->config->get('modulbank_show_payment_methods'));
+		}
+
 		$key = $this->model_payment_modulbank->getKey();
 
 		$signature                 = ModulbankHelper::calcSignature($key, $data);
