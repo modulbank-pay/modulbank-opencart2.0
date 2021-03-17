@@ -69,9 +69,9 @@ class ControllerPaymentModulbank extends Controller
 			'sysinfo'         => json_encode($sysinfo),
 			'salt'            => ModulbankHelper::getSalt(),
 		];
-
-		if(!empty($this->config->get('modulbank_show_payment_methods'))) {
-			$data['show_payment_methods'] = json_encode($this->config->get('modulbank_show_payment_methods'));
+		$methods = $this->config->get('modulbank_show_payment_methods');
+		if(!empty($methods)) {
+			$data['show_payment_methods'] = json_encode($methods);
 		}
 
 		$key = $this->model_payment_modulbank->getKey();
