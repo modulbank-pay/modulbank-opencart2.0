@@ -70,7 +70,7 @@ class ControllerPaymentModulbank extends Controller
 			'salt'            => ModulbankHelper::getSalt(),
 		];
 		$methods = $this->config->get('modulbank_show_payment_methods');
-		if(!empty($methods)) {
+		if($this->config->get('modulbank_pm_checkbox')) {
 			$data['show_payment_methods'] = json_encode($methods);
 		}
 
