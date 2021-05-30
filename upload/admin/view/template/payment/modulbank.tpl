@@ -127,7 +127,7 @@
             <div class="col-sm-10">
               <select name="modulbank_preauth" id="input-preauth" class="form-control">
                 <?php if($modulbank_preauth == '0'): ?>
-                <option value="test" selected="selected"><?php echo $text_preauth_off; ?></option>
+                <option value="0" selected="selected"><?php echo $text_preauth_off; ?></option>
                 <?php else: ?>
                 <option value="0"><?php echo $text_preauth_off; ?></option>
                 <?php endif;?>
