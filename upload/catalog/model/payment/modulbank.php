@@ -5,7 +5,6 @@ include_once DIR_APPLICATION . 'controller/payment/modulbanklib/ModulbankReceipt
 
 class ModelPaymentModulbank extends Model {
 
-	const MAX_NAME_LENGTH = 128;
 	public function getMethod($address, $total) {
 		$this->load->language('payment/modulbank');
 
@@ -136,7 +135,27 @@ class ModelPaymentModulbank extends Model {
 				$item_vat = $product_vat;
 			}
 
-			$name = $product['name'];
+			$option_data2=array();
+					
+			$order_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
+			
+			foreach ($order_option_query->rows as $option) {
+				if ($option['type'] != 'file') {
+					$value = $option['value'];
+				} else {
+					$value = utf8_substr($option['value'], 0, utf8_strrpos($option['value'], '.'));
+				}
+				
+				
+				$option_data2[]=$value;
+			}
+
+			$options_text=implode(';',$option_data2);
+
+			$name=$product['name'];
+
+			if (!empty($options_text))
+				$name.="(".$options_text.")";
 
 			$name = htmlspecialchars_decode($name);
 			$name = mb_substr($name,0,self::MAX_NAME_LENGTH);
