@@ -1,4 +1,33 @@
 <?php
+
+class ModulbankReceiptRawItems
+{
+	private $rawItems = array();
+
+	function addItem($name, $amount, $taxId, $payment_object, $quantity = 1.0)
+	{
+		if ($amount == 0) {
+			return;
+		}
+
+		$r = array(
+			"quantity"       => $quantity,
+			"amount"          => $amount,
+			"tax_id"            => $taxId,
+			"name"           => $name,
+			"payment_object" => $payment_object
+
+		);
+		
+		$this->rawItems[]=$r;
+	}
+
+	function getItems()
+	{
+		return $this->rawItems;
+	}
+}
+
 class ModulbankReceipt
 {
 	private $items         = array();
@@ -7,30 +36,7 @@ class ModulbankReceipt
 	private $sno           = '';
 	private $paymentMethod = '';
 
-	public function __construct($sno, $payment_method, $total = 0.0)
-	{
-		$this->resultTotal   = intval(round($total * 100));
-		$this->sno           = $sno;
-		$this->paymentMethod = $payment_method;
-	}
 
-	public function addItem($name, $amount, $taxId, $payment_object, $quantity = 1.0)
-	{
-		if ($amount == 0) {
-			return;
-		}
-
-		$this->items[] = array(
-			"quantity"       => round($quantity * 1000),
-			"price"          => round($amount * 100),
-			"vat"            => $taxId,
-			"name"           => $name,
-			"payment_object" => $payment_object,
-			"payment_method" => $this->paymentMethod,
-			"sno"            => $this->sno,
-		);
-		$this->currentSum += $amount * 100 * $quantity;
-	}
 
 	private function normalize()
 	{
@@ -100,15 +106,61 @@ class ModulbankReceipt
 		}
 	}
 
-	public function getItems()
+	private static function proccessItem($name, $amount, $taxId, $payment_object, $paymentMethod,$sno, $quantity = 1.0)
 	{
+		if ($amount == 0) {
+			return;
+		}
+
+		$r = array(
+			"quantity"       => round($quantity * 1000),
+			"price"          => round($amount * 100),
+			"vat"            => $taxId,
+			"name"           => $name,
+			"payment_object" => $payment_object,
+			"payment_method" => $paymentMethod,
+			"sno"            => $sno,
+		);
+		
+		return $r;
+	}
+
+	public function __construct($RawItemsObject,$sno, $payment_method, $total = 0.0)
+	{
+
+		$this->resultTotal   = intval(round($total * 100));
+		$this->sno           = $sno;
+		$this->paymentMethod = $payment_method;
+
+
+
+
+		$rawitems = $RawItemsObject->getItems();
+		
+		$this->currentSum = array_sum(array_map( function($item) { return $item["amount"]*100*$item["quantity"]; } , $rawitems  ));
+
+		foreach ($rawitems as $rawitem)
+		{
+			$this->items[]= self::proccessItem($rawitem["name"],$rawitem["amount"],$rawitem["tax_id"],$rawitem["payment_object"], $payment_method, $sno,$rawitem["quantity"]);
+			
+		}
+
 		$this->normalize();
 		$this->correctDimmensoin();
+	}
+
+
+
+
+	public function getItems()
+	{
+
 		return $this->items;
 	}
 
 	public function getJson()
 	{
-		return json_encode($this->getItems(), JSON_HEX_APOS);
+		return json_encode($this->items, JSON_HEX_APOS | JSON_INVALID_UTF8_IGNORE  |  JSON_UNESCAPED_UNICODE);
 	}
 }
+

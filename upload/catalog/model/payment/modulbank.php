@@ -102,7 +102,9 @@ class ModelPaymentModulbank extends Model {
 		$voucher_vat             = $this->config->get('modulbank_voucher_vat');
 
 		$amount  = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
-		$receipt = new ModulbankReceipt($sno, $payment_method, $amount);
+
+		$RawItemsObject = new ModulbankReceiptRawItems();
+
 
 		$query = $this->db->query("
 			SELECT op.*, (
@@ -132,17 +134,30 @@ class ModelPaymentModulbank extends Model {
 				$item_vat = $product_vat;
 			}
 			$name = htmlspecialchars_decode($product['name']);
-			$receipt->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
+
+
+			$RawItemsObject->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
 		}
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
 		foreach ($query->rows as $product) {
-			$receipt->addItem($product['description'], $product['amount'], $voucher_vat, $payment_object_voucher);
+			$RawItemsObject->addItem($product['description'], $product['amount'], $voucher_vat, $payment_object_voucher);
 		}
 		$query = $this->db->query("SELECT value FROM " . DB_PREFIX . "order_total WHERE order_id = '" . $order_id . "' and code='shipping'");
 		if (isset($query->row['value']) && $query->row['value']) {
-			$receipt->addItem('Доставка', $query->row['value'], $delivery_vat, $payment_object_delivery);
+			$RawItemsObject->addItem('Доставка', $query->row['value'], $delivery_vat, $payment_object_delivery);
 		}
-		return $receipt->getJson();
+
+		$receipt = new ModulbankReceipt($RawItemsObject,$sno, $payment_method, $amount);
+
+		$r_json=$receipt->getJson();
+
+		if ($r_json===FALSE)
+		{
+			$this->log(json_last_error()." ".json_last_error_msg(), 'json encode error');
+		} else
+			$this->log($r_json, 'receipt getJson');
+		
+		return $r_json;
 	}
 
 	public function getTransactionStatus($transaction)
