@@ -5,6 +5,7 @@ include_once DIR_APPLICATION . 'controller/payment/modulbanklib/ModulbankReceipt
 
 class ModelPaymentModulbank extends Model {
 
+	const MAX_NAME_LENGTH = 128;
 	public function getMethod($address, $total) {
 		$this->load->language('payment/modulbank');
 
@@ -27,6 +28,7 @@ class ModelPaymentModulbank extends Model {
 			$method_data = array(
 				'code'       => 'modulbank',
 				'title'      => $this->config->get('modulbank_paymentname'),
+        		'title_adv'      => $this->language->get('text_title_adv'),
 				'terms'      => '',
 				'sort_order' => $this->config->get('modulbank_sort_order')
 			);
@@ -133,14 +135,23 @@ class ModelPaymentModulbank extends Model {
 			} else {
 				$item_vat = $product_vat;
 			}
-			$name = htmlspecialchars_decode($product['name']);
 
+			$name = $product['name'];
+
+			$name = htmlspecialchars_decode($name);
+			$name = mb_substr($name,0,self::MAX_NAME_LENGTH);
 
 			$RawItemsObject->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
 		}
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
 		foreach ($query->rows as $product) {
-			$RawItemsObject->addItem($product['description'], $product['amount'], $voucher_vat, $payment_object_voucher);
+
+			$descr = $product['description'];
+
+			$descr = htmlspecialchars_decode($descr);
+			$descr = mb_substr($descr,0,self::MAX_NAME_LENGTH);
+
+			$RawItemsObject->addItem($descr, $product['amount'], $voucher_vat, $payment_object_voucher);
 		}
 		$query = $this->db->query("SELECT value FROM " . DB_PREFIX . "order_total WHERE order_id = '" . $order_id . "' and code='shipping'");
 		if (isset($query->row['value']) && $query->row['value']) {
