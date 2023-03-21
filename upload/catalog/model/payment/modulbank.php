@@ -5,6 +5,8 @@ include_once DIR_APPLICATION . 'controller/payment/modulbanklib/ModulbankReceipt
 
 class ModelPaymentModulbank extends Model {
 
+	const MAX_NAME_LENGTH=128;
+	
 	public function getMethod($address, $total) {
 		$this->load->language('payment/modulbank');
 
