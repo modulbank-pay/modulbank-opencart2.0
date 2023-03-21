@@ -5,6 +5,8 @@ include_once DIR_APPLICATION . 'controller/payment/modulbanklib/ModulbankReceipt
 
 class ModelPaymentModulbank extends Model {
 
+	const MAX_NAME_LENGTH=128;
+	
 	public function getMethod($address, $total) {
 		$this->load->language('payment/modulbank');
 
@@ -27,6 +29,7 @@ class ModelPaymentModulbank extends Model {
 			$method_data = array(
 				'code'       => 'modulbank',
 				'title'      => $this->config->get('modulbank_paymentname'),
+        		'title_adv'      => $this->language->get('text_title_adv'),
 				'terms'      => '',
 				'sort_order' => $this->config->get('modulbank_sort_order')
 			);
@@ -102,7 +105,9 @@ class ModelPaymentModulbank extends Model {
 		$voucher_vat             = $this->config->get('modulbank_voucher_vat');
 
 		$amount  = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
-		$receipt = new ModulbankReceipt($sno, $payment_method, $amount);
+
+		$RawItemsObject = new ModulbankReceiptRawItems();
+
 
 		$query = $this->db->query("
 			SELECT op.*, (
@@ -131,18 +136,60 @@ class ModelPaymentModulbank extends Model {
 			} else {
 				$item_vat = $product_vat;
 			}
-			$name = htmlspecialchars_decode($product['name']);
-			$receipt->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
+
+			$option_data2=array();
+					
+			$order_option_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
+			
+			foreach ($order_option_query->rows as $option) {
+				if ($option['type'] != 'file') {
+					$value = $option['value'];
+				} else {
+					$value = utf8_substr($option['value'], 0, utf8_strrpos($option['value'], '.'));
+				}
+				
+				
+				$option_data2[]=$value;
+			}
+
+			$options_text=implode(';',$option_data2);
+
+			$name=$product['name'];
+
+			if (!empty($options_text))
+				$name.="(".$options_text.")";
+
+			$name = htmlspecialchars_decode($name);
+			$name = mb_substr($name,0,self::MAX_NAME_LENGTH);
+
+			$RawItemsObject->addItem($name, $product['price'], $item_vat, $payment_object, $product['quantity']);
 		}
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
 		foreach ($query->rows as $product) {
-			$receipt->addItem($product['description'], $product['amount'], $voucher_vat, $payment_object_voucher);
+
+			$descr = $product['description'];
+
+			$descr = htmlspecialchars_decode($descr);
+			$descr = mb_substr($descr,0,self::MAX_NAME_LENGTH);
+
+			$RawItemsObject->addItem($descr, $product['amount'], $voucher_vat, $payment_object_voucher);
 		}
 		$query = $this->db->query("SELECT value FROM " . DB_PREFIX . "order_total WHERE order_id = '" . $order_id . "' and code='shipping'");
 		if (isset($query->row['value']) && $query->row['value']) {
-			$receipt->addItem('Доставка', $query->row['value'], $delivery_vat, $payment_object_delivery);
+			$RawItemsObject->addItem('Доставка', $query->row['value'], $delivery_vat, $payment_object_delivery);
 		}
-		return $receipt->getJson();
+
+		$receipt = new ModulbankReceipt($RawItemsObject,$sno, $payment_method, $amount);
+
+		$r_json=$receipt->getJson();
+
+		if ($r_json===FALSE)
+		{
+			$this->log(json_last_error()." ".json_last_error_msg(), 'json encode error');
+		} else
+			$this->log($r_json, 'receipt getJson');
+		
+		return $r_json;
 	}
 
 	public function getTransactionStatus($transaction)
